@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+#
+# [tab+ctrl]           -> go ignore blank fields and move field forward
+# [tab + shift +ctrl] -> go ignore blank fields and move field backward
 
 from aqt import mw
 from aqt.qt import *
@@ -10,7 +13,7 @@ directions = [
 (-1, Qt.CTRL + Qt.SHIFT + Qt.Key_Tab),
 ]
 
-def jumpBlankField(editor, direction):
+def skipBlankField(editor, direction):
 
     candidateField=editor.currentField
     if direction < 0:
@@ -40,6 +43,6 @@ def onSetupButtons(editor):
     for code, key in directions:
         s = QShortcut(QKeySequence(key), editor.parentWindow)
         s.connect(s, SIGNAL("activated()"),
-                  lambda c=code: jumpBlankField(editor, c))
+                  lambda c=code: skipBlankField(editor, c))
 
 addHook("setupEditorButtons", onSetupButtons)
